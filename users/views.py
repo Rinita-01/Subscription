@@ -18,6 +18,10 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
 from .decorators import custom_login_required
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 @login_required(login_url='customer_login')
 def myAccount(request):

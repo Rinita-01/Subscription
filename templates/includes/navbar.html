@@ -12,6 +12,7 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}"
                         style="color: azure;">Home</a></li>
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'plans' %}" style="color: azure;">Plans</a>
                 <li class="nav-item"><a class="nav-link mx-2" href="{% url 'logout' %}" style="color: azure;">Logout</a>
                 </li>
                 <li class="nav-item">
@@ -26,22 +27,12 @@
                     </a>
                 </li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link mx-2" href="#"
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}"
                         style="color: azure;">Home</a></li>
                 <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_login' %}"
                         style="color: azure;">Login</a></li>
-
-                <!-- Register Dropdown -->
-                <li class="nav-item dropdown submenu">
-                    <a class="nav-link dropdown-toggle mx-2" id="registerDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false" style="color: azure;">
-                        Register
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="registerDropdown">
-                        <li><a class="dropdown-item" href="{% url 'customer_registration' %}">Customer</a></li>
-                        <li><a class="dropdown-item" href="{% url 'admin_registration' %}">Admin</a></li>
-                    </ul>
-                </li>
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_registration' %}"
+                        style="color: azure;">Register</a></li>
                 {% endif %}
             </ul>
         </div>

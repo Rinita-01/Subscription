@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section>
+  <div class="container">
+    <br>
+    <h5 class="text-center mb-2">Best Ever plans</h5>
+    <h2 class="text-center mb-5">Choose Your Plan</h2>
+    <div class="row justify-content-center">
+      {% for plan in plans %}
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="
+                       {% if forloop.counter0|divisibleby:3 %}
+                         background-color: #e3f2fd;  /* light blue */
+                       {% elif forloop.counter0|divisibleby:3 == False and forloop.counter0|divisibleby:2 %}
+                         background-color: #e8f5e9;  /* light green */
+                       {% else %}
+                         background-color: #fff3e0;  /* light orange */
+                       {% endif %}
+                       ">
+          <div class="card-body text-center">
+            <input type="hidden" name="planID" id="planID" value="{{ plan_id }}">
+            <h4 class="card-title">{{ plan.name }}</h4>
+            <h5 class="card-subtitle mb-2 text-muted">{{ plan.get_duration_display }}</h5>
+            <p class="card-text">{{ plan.description }}</p>
+            <h3 class="text-primary mb-3" id="price">{{ plan.price }}</h3>
+            <button id="subscribe-btn" class="btn btn-outline-primary">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

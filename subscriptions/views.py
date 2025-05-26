@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from .models import SubscriptionPlan
 
-# Create your views here.
+def show(request):
+    plans = SubscriptionPlan.objects.all()
+    return render(request, 'subscriptions/subscriptions.html', {'plans': plans})

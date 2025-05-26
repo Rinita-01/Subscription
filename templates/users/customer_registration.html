@@ -3,67 +3,71 @@
 {% block content %}
 
 <section style="padding-top: 120px; padding-bottom: 50px;">
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="col-md-8"> 
-            <div class="col-md-12 text-center">
-                <div class="section-heading">
-                    <h2>Customer Registration</h2>
-                </div>
-            </div>
-            <div class="contact-form shadow-lg p-4 bg-white rounded">
-                <form id="customer-registration-form" action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-12 mb-3">
-                            <label for="profile_picture">Profile Picture</label>
-                            <input type="file" name="profile_picture" class="form-control" id="profile_picture">
-                            <small id="profile_picture_error" class="text-danger"></small>
-                        </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="first_name">First Name</label>
-                            <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" onkeypress="return validatefirstname(event)">
-                            <small id="first_name_error" class="text-danger"></small>
-                        </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="last_name">Last Name</label>
-                            <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" onkeypress="return validatelastname(event)">
-                            <small id="last_name_error" class="text-danger"></small>
-                        </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="username"> Username</label>
-                            <input name="username" type="text" class="form-control" id="username" placeholder="username" oninput="restrictUsername(this)">
-                            <small id="username_error" class="text-danger"></small>
-                        </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="email">Email</label>
-                            <input name="email" type="email" class="form-control" id="email" placeholder="Email" oninput="return validateemail(event)">
-                            <small id="email_error" class="text-danger"></small>
-                        </div>
-                        <div class="col-lg-12 pass-field">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Create password" style="margin-bottom: 0px;">
-                                <i class="fa-solid fa-eye"></i>
-                        </div>
-                        <div class="content" style="margin-bottom: 20px;">
-                            <p>Password must contain:</p>
-                            <ul class="requirement-list">
-                                <li><i class="fa-solid fa-circle"></i> <span>At least 8 characters</span></li>
-                                <li><i class="fa-solid fa-circle"></i> <span>At least 1 number (0–9)</span></li>
-                                <li><i class="fa-solid fa-circle"></i> <span>At least 1 lowercase letter (a–z)</span></li>
-                                <li><i class="fa-solid fa-circle"></i> <span>At least 1 special symbol (!@#$...)</span></li>
-                                <li><i class="fa-solid fa-circle"></i> <span>At least 1 uppercase letter (A–Z)</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-12">
-                            <button type="submit" id="register-btn" class="filled-button">Register</button>
-                            <small style="padding-left: 10px;">Existing User? <a href="{% url 'customer_login' %}" class="text-danger">Login Now</a> </small>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="col-md-6 col-lg-5"> <!-- narrower form -->
+      <div class="text-center mb-4">
+        <h2>Customer Registration</h2>
+      </div>
+      <div class="p-4 bg-light rounded shadow-sm"> <!-- grey background with soft shadow -->
+        <form id="customer-registration-form" method="post" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="profile_picture">Profile Picture</label>
+            <input type="file" name="profile_picture" class="form-control" id="profile_picture">
+            <small id="profile_picture_error" class="text-danger"></small>
+          </div>
 
+          <div class="mb-3">
+            <label for="first_name">First Name</label>
+            <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" onkeypress="return validatefirstname(event)">
+            <small id="first_name_error" class="text-danger"></small>
+          </div>
+
+          <div class="mb-3">
+            <label for="last_name">Last Name</label>
+            <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" onkeypress="return validatelastname(event)">
+            <small id="last_name_error" class="text-danger"></small>
+          </div>
+
+          <div class="mb-3">
+            <label for="username">Username</label>
+            <input name="username" type="text" class="form-control" id="username" placeholder="Username" oninput="restrictUsername(this)">
+            <small id="username_error" class="text-danger"></small>
+          </div>
+
+          <div class="mb-3">
+            <label for="email">Email</label>
+            <input name="email" type="email" class="form-control" id="email" placeholder="Email" oninput="return validateemail(event)">
+            <small id="email_error" class="text-danger"></small>
+          </div>
+
+          <div class="mb-3 pass-field position-relative">
+            <label for="password">Password</label>
+            <input name="password" type="password" class="form-control" id="password" placeholder="Create password">
+            <i class="fa-solid fa-eye position-absolute" style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
+          </div>
+
+          <div class="content mb-3">
+            <p class="mb-1">Password must contain:</p>
+            <ul class="requirement-list ps-3">
+              <li><i class="fa-solid fa-circle"></i> <span>At least 8 characters</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span>At least 1 number (0–9)</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span>At least 1 lowercase letter (a–z)</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span>At least 1 special symbol (!@#$...)</span></li>
+              <li><i class="fa-solid fa-circle"></i> <span>At least 1 uppercase letter (A–Z)</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <button type="submit" id="register-btn" class="btn btn-dark w-100">Register</button>
+            <small class="d-block mt-2 text-center">
+              Existing User? <a href="{% url 'customer_login' %}" class="text-danger">Login Now</a>
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
