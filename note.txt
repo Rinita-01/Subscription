@@ -1,0 +1,14 @@
+python manage.py startapp subsciption
+python manage.py startapp payments
+python manage.py startapp users
+
+1. users = email
+2. subsciption = (User)user + (Subsciptionplan)plan
+3. subsciptionplan = name
+4. payment = (User)user + subsciption
+
+
+
+I use admin pannel for inserting the subsciption plans instead of doing it statically
+admin can register themself with http://localhost:8000/users/admin_registration/ url
+I use email authentication for customer login and registration
