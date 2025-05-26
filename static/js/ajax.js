@@ -127,80 +127,78 @@ $(document).ready(function () {
         });
     });
 
-    $(subscribe-btn).click(function(event) {
-    event.preventDefault();
+    $(document).on('click', '.subscribe-btn', function (event) {
+      event.preventDefault();
 
-    const cardBody = $(this).closest('.card-body');
-    const planID = cardBody.find('input[name="planID"]').val();
-    const amount = cardBody.find('#price').val().trim();
+      const cardBody = $(this).closest('.card-body');
+      const planID = cardBody.find('.plan-id').val();
+      const amountText = cardBody.find('.plan-price').text().trim();
+      const amount = parseFloat(amountText);
 
-
-    if (isNaN(amount) || amount <= 0) {
-      alert('Invalid subscription amount.');
-      return;
-    }
-
-    const amountInPaise = Math.round(amount * 100);
-    const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-
-    
-    const requestData = {
-      amount: amountInPaise.toString(),
-      plan_id: planID,
-      csrfmiddlewaretoken: csrfToken
-    };
-
-    $.ajax({
-      url: '/payments/create_order/',
-      type: 'POST',
-      data: requestData,
-      success: function(data) {
-        const options = {
-          key: data.key,
-          amount: data.amount,
-          order_id: data.order_id,
-          currency: 'INR',
-          name: 'BuyBook Subscription',
-          description: 'Payment for subscription plan',
-          handler: function(response) {
-            alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-
-            
-            const verifyData = {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-              plan_id: planID,
-              csrfmiddlewaretoken: csrfToken
-            };
-
-            $.ajax({
-              url: '/payments/verify_payment/',
-              type: 'POST',
-              data: verifyData,
-              success: function(verificationResponse) {
-                if (verificationResponse.success) {
-                  alert("Subscription payment verified successfully!");
-                  window.location.href = `/subscriptions/success/${verificationResponse.subscription_id}/`;
-                } else {
-                  alert("Payment verification failed: " + verificationResponse.error);
-                }
-              },
-              error: function(error) {
-                console.error("Verification error:", error);
-                alert("Error verifying subscription payment.");
-              }
-            });
-          }
-        };
-
-        const rzp = new Razorpay(options);
-        rzp.open();
-      },
-      error: function(error) {
-        console.error('Order creation error:', error);
-        alert('Error creating subscription order.');
+      if (isNaN(amount) || amount <= 0) {
+        alert('Invalid subscription amount.');
+        return;
       }
+
+      const amountInPaise = Math.round(amount * 100);
+      const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
+      const requestData = {
+        amount: amountInPaise.toString(),
+        plan_id: planID,
+        csrfmiddlewaretoken: csrfToken
+      };
+
+      $.ajax({
+        url: '/payments/create_order/',
+        type: 'POST',
+        data: requestData,
+        success: function (data) {
+          const options = {
+            key: data.key,
+            amount: data.amount,
+            order_id: data.order_id,
+            currency: 'INR',
+            name: 'BuyBook Subscription',
+            description: 'Payment for subscription plan',
+            handler: function (response) {
+              alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+
+              const verifyData = {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                plan_id: planID,
+                csrfmiddlewaretoken: csrfToken
+              };
+
+              $.ajax({
+                url: '/payments/verify_payment/',
+                type: 'POST',
+                data: verifyData,
+                success: function (verificationResponse) {
+                  if (verificationResponse.success) {
+                    alert("Subscription payment verified successfully!");
+                    window.location.href = `/payments/success/${verificationResponse.subscription_id}/`;
+                  } else {
+                    alert("Payment verification failed: " + verificationResponse.error);
+                  }
+                },
+                error: function (error) {
+                  console.error("Verification error:", error);
+                  alert("Error verifying subscription payment.");
+                }
+              });
+            }
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.open();
+        },
+        error: function (error) {
+          console.error('Order creation error:', error);
+          alert('Error creating subscription order.');
+        }
+      });
     });
-  });
 });

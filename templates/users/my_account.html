@@ -1,29 +1,52 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<section style="padding-top: 120px; padding-bottom: 50px;">
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="col-md-8">
-            <div class="col-md-12 text-center">
-                <div class="section-heading">
-                    <h2>My Account</h2>
-                </div>
+<form style="display:none;">
+  {% csrf_token %}
+</form>
 
-                <!-- Profile Picture -->
-                {% if user.profile_picture %}
-                    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="rounded-circle mb-3" width="150">
-                {% else %}
-                    <img src="/static/images/default-profile.png" alt="Default Profile" class="rounded-circle mb-3" width="150">
-                {% endif %}
+<div class="container mt-4">
 
-                <!-- User Info -->
-                <p><strong>Email:</strong> {{ user.email }}</p>
-                <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                <p><strong>Joined on:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
-            </div>
-        </div>
+  <!-- User Details (No Card) -->
+  <div class="d-flex align-items-center mb-5">
+    <!-- Profile picture -->
+    {% if user.profile_picture %}
+      <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="rounded-circle me-3" style="width: 80px; height: 80px; object-fit: cover;">
+    {% else %}
+      <img src="{% static 'default-profile.png' %}" alt="Profile Picture" class="rounded-circle me-3" style="width: 80px; height: 80px; object-fit: cover;">
+    {% endif %}
+    
+    <!-- User info -->
+    <div>
+      <h5>User Details</h5>
+      <p class="mb-1"><strong>Username:</strong> {{ user.username }}</p>
+      <p class="mb-0"><strong>Email:</strong> {{ user.email }}</p>
     </div>
-</section>
+  </div>
+
+  <!-- Subscription Card -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Subscription Info</h5>
+    </div>
+    <div class="card-body">
+      {% if subscription %}
+        <p><strong>Plan:</strong> {{ subscription.plan.name }}</p>
+        <p><strong>Status:</strong>
+          <span class="badge {% if subscription.is_active %}bg-success{% else %}bg-danger{% endif %}">
+            {% if subscription.is_active %}Active{% else %}Inactive{% endif %}
+          </span>
+        </p>
+        <p><strong>Start Date:</strong> {{ subscription.start_date|date:"F j, Y" }}</p>
+        <p><strong>End Date:</strong> {{ subscription.end_date|date:"F j, Y" }}</p>
+      {% else %}
+        <p class="text-muted">No active subscription.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
 
 {% endblock %}

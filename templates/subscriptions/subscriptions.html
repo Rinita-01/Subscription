@@ -4,6 +4,11 @@
 
 <section>
   <div class="container">
+    <!-- Hidden form to add csrf_token and set the CSRF cookie -->
+    <form style="display:none;">
+      {% csrf_token %}
+    </form>
+
     <br>
     <h5 class="text-center mb-2">Best Ever plans</h5>
     <h2 class="text-center mb-5">Choose Your Plan</h2>
@@ -20,12 +25,12 @@
                        {% endif %}
                        ">
           <div class="card-body text-center">
-            <input type="hidden" name="planID" id="planID" value="{{ plan_id }}">
             <h4 class="card-title">{{ plan.name }}</h4>
             <h5 class="card-subtitle mb-2 text-muted">{{ plan.get_duration_display }}</h5>
             <p class="card-text">{{ plan.description }}</p>
-            <h3 class="text-primary mb-3" id="price">{{ plan.price }}</h3>
-            <button id="subscribe-btn" class="btn btn-outline-primary">Subscribe</button>
+            <input type="hidden" name="planID" class="plan-id" value="{{ plan.id }}">
+            <h3 class="text-primary mb-3 plan-price">{{ plan.price }}</h3>
+            <button class="btn btn-outline-primary subscribe-btn">Subscribe</button>
           </div>
         </div>
       </div>

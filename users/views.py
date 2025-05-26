@@ -18,6 +18,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
 from .decorators import custom_login_required
+from subscriptions.models import Subscription
 import logging
 
 
@@ -25,9 +26,13 @@ logger = logging.getLogger(__name__)
 
 @login_required(login_url='customer_login')
 def myAccount(request):
+    subscription = Subscription.objects.filter(user=request.user, is_active=True).order_by('-end_date').first()
+
     return render(request, 'users/my_account.html', {
         'user': request.user,
+        'subscription': subscription,
     })
+
 
 def activate(request, uidb64, token):              
     try:
@@ -178,6 +183,6 @@ def customer_login(request):
 def logout(request):
     auth.logout(request)
     messages.info(request, 'You are logged out.')
-    return redirect('home')
+    return redirect('plans')
     add_never_cache_headers(response)
     return response
