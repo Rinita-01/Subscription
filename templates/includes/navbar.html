@@ -1,39 +1,59 @@
 {% load static %}
 
-<nav class="navbar navbar-light" style="background-color: #313231; position: relative;">
+<nav class="navbar navbar-light py-2" style="background-color: #313231;">
     <div class="container-fluid">
         <a class="navbar-brand">
             <img src="{% static 'images/logo.png' %}" alt="logo" height="40">
         </a>
 
-        <!-- Navigation Links -->
         <div class="d-flex align-items-center">
-            <ul class="navbar-nav d-flex flex-row align-items-center">
+            <ul class="navbar-nav d-flex flex-row align-items-center mb-0">
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}"style="color: azure;">home</a></li>
-                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'plans' %}" style="color: azure;">Plans</a>
-                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'logout' %}" style="color: azure;">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'myAccount' %}">
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}" style="color: azure;">Home</a></li>
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'plans' %}" style="color: azure;">Plans</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownProfile"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% if user.profile_picture %}
-                        <img src="{{ user.profile_picture.url }}" class="rounded-circle border" alt="Profile Picture"
-                            width="40" height="40">
+                        <img src="{{ user.profile_picture.url }}" class="rounded-circle border" alt="Profile Picture" width="40" height="40">
                         {% else %}
-                        <img src="{% static 'images/default_profile.png' %}" class="rounded-circle border"
-                            alt="Default Profile" width="40" height="40">
+                        <img src="{% static 'images/default_profile.png' %}" class="rounded-circle border" alt="Default Profile" width="40" height="40">
                         {% endif %}
                     </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownProfile">
+                        <li><a class="dropdown-item" href="{% url 'myAccount' %}">My Account</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
                 </li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}"
-                        style="color: azure;">Home</a></li>
-                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_login' %}"
-                        style="color: azure;">Login</a></li>
-                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_registration' %}"
-                        style="color: azure;">Register</a></li>
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}" style="color: azure;">Home</a></li>
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_login' %}" style="color: azure;">Login</a></li>
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_registration' %}" style="color: azure;">Register</a></li>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
+
+<style>
+    .navbar .nav-link img {
+        vertical-align: middle;
+        object-fit: cover;
+    }
+    .navbar .dropdown-toggle::after {
+        display: none;
+    }
+    .navbar {
+        position: relative;
+        z-index: 1000;
+    }
+    .dropdown-menu {
+        position: absolute !important;
+        top: 100% !important;
+        margin-top: 0.5rem;
+        z-index: 2000;
+    }
+</style>
+
