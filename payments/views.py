@@ -35,10 +35,10 @@ def create_order(request):
             if 'id' not in order_response:
                 return JsonResponse({"error": "Failed to create Razorpay order."})
 
-            # Create Payment record only
+            
             Payment.objects.create(
                 user=request.user,
-                amount=amount / 100,  # convert from paise
+                amount=amount / 100,  
                 payment_method='Razorpay',
                 status='Pending',
                 is_paid=False,
@@ -69,20 +69,20 @@ def verify_payment(request):
             if not all([razorpay_order_id, razorpay_payment_id, razorpay_signature, plan_id]):
                 return JsonResponse({"error": "Missing required fields."})
 
-            # Verify Razorpay signature
+            
             client.utility.verify_payment_signature({
                 "razorpay_order_id": razorpay_order_id,
                 "razorpay_payment_id": razorpay_payment_id,
                 "razorpay_signature": razorpay_signature,
             })
 
-            # Update Payment record
+        
             payment = Payment.objects.get(transaction_id=razorpay_order_id)
             payment.status = 'Success'
             payment.is_paid = True
             payment.save()
 
-            # Assign subscription to user
+            
             plan = get_object_or_404(SubscriptionPlan, id=plan_id)
 
             duration_days = {

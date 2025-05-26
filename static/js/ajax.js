@@ -143,14 +143,13 @@ $(document).ready(function () {
     const amountInPaise = Math.round(amount * 100);
     const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
-    // Prepare data for order creation (subscription purchase)
+    
     const requestData = {
       amount: amountInPaise.toString(),
       plan_id: planID,
       csrfmiddlewaretoken: csrfToken
     };
 
-    // Create Razorpay order via AJAX
     $.ajax({
       url: '/payments/create_order/',
       type: 'POST',
@@ -166,7 +165,7 @@ $(document).ready(function () {
           handler: function(response) {
             alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
 
-            // Prepare data for server-side payment verification
+            
             const verifyData = {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
@@ -175,7 +174,6 @@ $(document).ready(function () {
               csrfmiddlewaretoken: csrfToken
             };
 
-            // Verify the payment
             $.ajax({
               url: '/payments/verify_payment/',
               type: 'POST',
