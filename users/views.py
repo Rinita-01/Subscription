@@ -183,6 +183,6 @@ def customer_login(request):
 def logout(request):
     auth.logout(request)
     messages.info(request, 'You are logged out.')
-    return redirect('plans')
+    return redirect('home')
     add_never_cache_headers(response)
     return response

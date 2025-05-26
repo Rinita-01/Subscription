@@ -4,11 +4,11 @@
 
 <section style="padding-top: 120px; padding-bottom: 50px;">
   <div class="d-flex justify-content-center align-items-center">
-    <div class="col-md-6 col-lg-5"> <!-- narrower form -->
+    <div class="col-md-6 col-lg-5"> 
       <div class="text-center mb-4">
         <h2>Customer Registration</h2>
       </div>
-      <div class="p-4 bg-light rounded shadow-sm"> <!-- grey background with soft shadow -->
+      <div class="p-4 bg-light rounded shadow-sm"> 
         <form id="customer-registration-form" method="post" enctype="multipart/form-data" novalidate>
           {% csrf_token %}
           <div class="mb-3">
@@ -31,13 +31,13 @@
 
           <div class="mb-3">
             <label for="username">Username</label>
-            <input name="username" type="text" class="form-control" id="username">
+            <input name="username" type="text" class="form-control" id="username" placeholder="username">
             <small id="username_error" class="text-danger"></small>
           </div>
 
           <div class="mb-3">
             <label for="email">Email</label>
-            <input name="email" type="email" class="form-control" id="email">
+            <input name="email" type="email" class="form-control" id="email" placeholder="email">
             <small id="email_error" class="text-danger"></small>
           </div>
 

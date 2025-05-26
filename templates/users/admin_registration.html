@@ -4,11 +4,11 @@
 
 <section style="padding-top: 120px; padding-bottom: 50px;">
   <div class="d-flex justify-content-center align-items-center">
-    <div class="col-md-6 col-lg-5"> <!-- Reduced width -->
+    <div class="col-md-6 col-lg-5">
       <div class="text-center mb-4">
         <h2>Admin Registration</h2>
       </div>
-      <div class="p-4 bg-light rounded shadow-sm"> <!-- Light grey background with soft shadow -->
+      <div class="p-4 bg-light rounded shadow-sm"> 
         <form id="admin-registration-form" method="post" enctype="multipart/form-data" novalidate>
           {% csrf_token %}
 
@@ -26,7 +26,7 @@
 
           <div class="mb-3">
             <label for="last_name">Last Name</label>
-            <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name"
+            <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name">
             <small id="last_name_error" class="text-danger"></small>
           </div>
 

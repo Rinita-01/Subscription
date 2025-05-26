@@ -10,6 +10,7 @@
         <div class="d-flex align-items-center">
             <ul class="navbar-nav d-flex flex-row align-items-center">
                 {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}"style="color: azure;">home</a></li>
                 <li class="nav-item"><a class="nav-link mx-2" href="{% url 'plans' %}" style="color: azure;">Plans</a>
                 <li class="nav-item"><a class="nav-link mx-2" href="{% url 'logout' %}" style="color: azure;">Logout</a>
                 </li>
@@ -25,8 +26,8 @@
                     </a>
                 </li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'plans' %}"
-                        style="color: azure;">Plans</a></li>
+                <li class="nav-item"><a class="nav-link mx-2" href="{% url 'home' %}"
+                        style="color: azure;">Home</a></li>
                 <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_login' %}"
                         style="color: azure;">Login</a></li>
                 <li class="nav-item"><a class="nav-link mx-2" href="{% url 'customer_registration' %}"
