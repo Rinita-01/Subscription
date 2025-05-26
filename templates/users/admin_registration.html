@@ -1,59 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center mb-4">Admin Registration</h2>
 
-<section style="padding-top: 120px; padding-bottom: 50px;">
-  <div class="d-flex justify-content-center align-items-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="text-center mb-4">
-        <h2>Admin Registration</h2>
-      </div>
-      <div class="p-4 bg-light rounded shadow-sm"> 
-        <form id="admin-registration-form" method="post" enctype="multipart/form-data" novalidate>
-          {% csrf_token %}
+      <form method="post" enctype="multipart/form-data" id="admin-register-form" class="border p-4 shadow rounded bg-light">
+        {% csrf_token %}
 
-          <div class="mb-3">
-            <label for="profile_picture">Profile Picture</label>
-            <input type="file" name="profile_picture" class="form-control" id="profile_picture">
-            <small id="profile_picture_error" class="text-danger"></small>
-          </div>
+        <div class="mb-3">
+          <label for="first_name" class="form-label">First Name</label>
+          <input type="text" id="first_name" name="first_name" class="form-control" required>
+        </div>
 
-          <div class="mb-3">
-            <label for="first_name">First Name</label>
-            <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name">
-            <small id="first_name_error" class="text-danger"></small>
-          </div>
+        <div class="mb-3">
+          <label for="last_name" class="form-label">Last Name</label>
+          <input type="text" id="last_name" name="last_name" class="form-control" required>
+        </div>
 
-          <div class="mb-3">
-            <label for="last_name">Last Name</label>
-            <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name">
-            <small id="last_name_error" class="text-danger"></small>
-          </div>
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" name="username" class="form-control">
+        </div>
 
-          <div class="mb-3">
-            <label for="username">Username</label>
-            <input name="username" type="text" class="form-control" id="username" placeholder="Username">
-            <small id="username_error" class="text-danger"></small>
-          </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" name="email" class="form-control" required>
+        </div>
 
-          <div class="mb-3">
-            <label for="email">Email</label>
-            <input name="email" type="email" class="form-control" id="email" placeholder="Email">
-            <small id="email_error" class="text-danger"></small>
-          </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div id="message" class="mb-3 text-danger"></div>
 
-          <div class="mb-3 pass-field position-relative">
-            <label for="password">Password</label>
-            <input name="password" type="password" class="form-control" id="password" placeholder="Create password">
-            <i class="fa-solid fa-eye position-absolute" style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
-          </div>
-          <div>
-            <button type="submit" id="admin-register-btn" class="btn btn-dark w-100">Register</button>
-          </div>
-        </form>
-      </div>
+        <div class="d-grid">
+          <button type="submit" id="admin-Register-btn" class="btn btn-dark">Register</button>
+        </div>
+      </form>
     </div>
   </div>
-</section>
-
+</div>
 {% endblock %}

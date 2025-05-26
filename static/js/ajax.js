@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $("#register-btn").click(function (event) {
+    $("#register-btn").click(function (event) {
         event.preventDefault(); 
         
         let formData = new FormData();
@@ -29,7 +29,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    alert("Registration successful! Redirecting to login...");
+                    alert("Registration successful! check your email for verification.");
                     window.location.assign("/users/customer_login/");
                 } else {
                     alert("Error: " + response.error);
@@ -44,26 +44,26 @@ $(document).ready(function () {
         });
     });
 
-
     $("#admin-Register-btn").click(function(event){
         event.preventDefault();
 
         var formData = new FormData();
-        formData.append("username", $("#username").val());
         formData.append("email", $("#email").val());
         formData.append("password", $("#password").val());
         formData.append("first_name", $("#first_name").val());
         formData.append("last_name", $("#last_name").val());
-        let profilePicture = $("#profile_picture")[0].files[0]; 
-        if (profilePicture) {
-            formData.append("profile_picture", profilePicture);
+
+        // Optional username (leave blank to auto-generate on backend)
+        var username = $("#username").val();
+        if (username) {
+            formData.append("username", username);
         }
 
-        
+        // CSRF token
         formData.append("csrfmiddlewaretoken", $("input[name=csrfmiddlewaretoken]").val());
 
         $.ajax({
-            url: "/users/admin_registration/", 
+            url: "/users/admin_registration/",
             type: "POST",
             data: formData,
             processData: false,
@@ -73,19 +73,18 @@ $(document).ready(function () {
                 if (response.success) {
                     $("#message").text(response.message).css("color", "green");
                     setTimeout(function() {
-                        window.location.href = response.redirect_url; 
+                        window.location.href = response.redirect_url;
                     }, 2000);
                 } else {
                     $("#message").text(response.error).css("color", "red");
                 }
             },
             error: function(response) {
-                var errorMsg = response.responseJSON?.error || "An error occurred";
+                var errorMsg = response.responseJSON?.error || "An unexpected error occurred";
                 $("#message").text(errorMsg).css("color", "red");
             }
         });
     });
-
     
     $("#login-btn").click(function (event) {
         event.preventDefault(); 

@@ -20,6 +20,7 @@ from django.utils.encoding import force_str
 from .decorators import custom_login_required
 from subscriptions.models import Subscription
 import logging
+from django.urls import reverse
 
 
 logger = logging.getLogger(__name__)
@@ -72,46 +73,44 @@ def admin_registration(request):
             password = request.POST.get('password')
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
-            username = request.POST.get('username')
-            profile_picture = request.FILES.get('profile_picture')
+            username = request.POST.get('username') or f"user_{email.split('@')[0]}"
 
-            
-            logger.debug(f"Received Data: {email}, {username}, {first_name}, {last_name}")
+            # Basic validation
+            if not email or not password:
+                return JsonResponse({'success': False, 'error': 'Email and password are required.'})
 
-            
-            if not email or not password or not username:
-                return JsonResponse({'success': False, 'error': 'Missing required fields.'})
+            if User.objects.filter(email=email).exists():
+                return JsonResponse({'success': False, 'error': 'Email already registered.'})
 
-            
+            # Create admin user
             user = User.objects.create_user(
-                username=username,
                 email=email,
+                username=username,
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
-                profile_picture=profile_picture
+                user_type='admin'
             )
 
-            
-            user.is_staff = True 
-            user.is_superuser = True 
-            user.user_type = 'admin'  
+            user.is_staff = True
+            user.is_superuser = True
             user.save()
 
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
-                login(request, user)
+            # Authenticate and login the new admin
+            authenticated_user = authenticate(request, email=email, password=password)
+            if authenticated_user:
+                login(request, authenticated_user)
 
             return JsonResponse({
-                'success': True, 
-                'message': 'Registration successful!', 
-                'redirect_url': '/admin/login/'
+                'success': True,
+                'message': 'Admin registered successfully!',
+                'redirect_url': '/admin/login/'  # ✅ Redirect directly to admin dashboard
             })
 
         except Exception as e:
-            logger.error(f"Error during registration: {str(e)}")
+            logger.error(f"Error in admin registration: {str(e)}")
             return JsonResponse({'success': False, 'error': str(e)})
- 
+
     return render(request, 'users/admin_registration.html')
 
 
