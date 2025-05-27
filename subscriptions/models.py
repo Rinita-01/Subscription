@@ -34,9 +34,10 @@ class Subscription(models.Model):
     def save(self, *args, **kwargs):
         if not self.end_date and self.plan:
             duration_map = {
-                'monthly': 30,
-                'quarterly': 90,
-                'yearly': 365
+                '1M': 30,
+                '3M': 90,
+                '6M': 180,
+                '12M': 365
             }
             days = duration_map.get(self.plan.duration, 30)
             self.end_date = self.start_date + timedelta(days=days)
